@@ -167,6 +167,7 @@ def rank_emails(student_profile, processed_emails):
             doc_ratio = len(available_docs & required_docs) / len(required_docs)
             score += round(doc_ratio * 10)
 
+        print(student_profile, email)
         ranked_emails.append([email, score])
     return ranked_emails
 
