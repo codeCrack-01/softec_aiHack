@@ -1,6 +1,5 @@
 import json
 import os
-import re
 from datetime import date, datetime
 
 from dotenv import load_dotenv
@@ -10,7 +9,7 @@ from prompts import *
 
 load_dotenv()
 
-llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"), model="openai/gpt-oss-120b")
+llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"), model="openai/gpt-oss-120b")  # type: ignore
 
 
 def process_emails(emails):
@@ -29,7 +28,7 @@ def process_emails(emails):
         )
 
         try:
-            cleaned_response = llm_response_content.strip()
+            cleaned_response = llm_response_content.strip()  # type: ignore
             if cleaned_response.startswith("```json") and cleaned_response.endswith(
                 "```"
             ):
@@ -48,7 +47,7 @@ def process_emails(emails):
             print(
                 f"Error decoding JSON from LLM response for {email.get('filename', 'N/A')}: {e}"
             )
-            print(f"LLM response (after stripping): {cleaned_response[:500]}...")
+            print(f"LLM response (after stripping): {cleaned_response[:500]}...")  # type: ignore
             processed_emails.append(
                 {
                     "is_opportunity": False,
