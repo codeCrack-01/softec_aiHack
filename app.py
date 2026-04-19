@@ -6,12 +6,10 @@ from PyPDF2 import PdfReader
 
 from extract import *
 
-# Page Config
 st.set_page_config(page_title="JSON Data Packager", page_icon="⚙️")
 
 st.title("📝 Student Data & Email Packager")
 
-# 1. THE STUDENT PROFILE FORM
 with st.form("student_profile_form"):
     st.subheader("Student Information")
 
@@ -40,18 +38,15 @@ with st.form("student_profile_form"):
 
     submitted = st.form_submit_button("Save Profile")
 
-# 2. FILE UPLOAD SECTION
 st.subheader("Email Files")
 uploaded_files = st.file_uploader(
     "Upload email .pdf files", type="pdf", accept_multiple_files=True
 )
 
-# 3. THE PROCESSING & SENDING LOGIC
 if st.button("Process & Send to LangChain"):
     if not uploaded_files:
         st.warning("Please upload files to proceed.")
     else:
-        # Extract PDF text
         email_data = []
         for uploaded_file in uploaded_files:
             try:
@@ -101,17 +96,14 @@ if st.button("Process & Send to LangChain"):
             )
             status.update(label="Analysis Complete!", state="complete", expanded=False)
 
-        # 4. ACCORDION DISPLAY (Bootstrap-style)
         st.subheader("Match Results")
 
         if not output_emails:
             st.info("No relevant opportunities were found in the uploaded emails.")
         else:
-            # SORTING LOGIC: Sort by the second element (score) in descending order
             output_emails.sort(key=lambda x: x[1], reverse=True)
 
             for explanation, score in output_emails:
-                # Color code the score emoji based on strength
                 if score >= 80:
                     emoji = "🚀"
                 elif score >= 50:
@@ -119,6 +111,5 @@ if st.button("Process & Send to LangChain"):
                 else:
                     emoji = "💡"
 
-                # Each expander acts as an accordion item
                 with st.expander(f"{emoji} Match Score: {score}/100"):
                     st.markdown(explanation)
